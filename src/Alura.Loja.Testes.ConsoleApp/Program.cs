@@ -1,4 +1,9 @@
-﻿namespace Alura.Loja.Testes.ConsoleApp
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Alura.Loja.Testes.ConsoleApp
 {
     class Program
     {
@@ -7,6 +12,35 @@
             //GravarUsandoAdoNet();
             GravarUsandoEntity();
             GravarMuitosUsandoEntity();
+            RecuperarProdutosEntity();
+            Console.ReadKey();
+        }
+
+        private static void RecuperarProdutosEntity()
+        {
+            using (var contexto = new LojaContext())
+            {
+                var produtos = contexto.Produtos;
+
+                /*
+                 SELECT [p].[Id], [p].[Categoria], [p].[Nome], [p].[Preco]
+                    FROM [Produtos] AS [p]
+                 */
+
+                //OBS: A execução do comando acima é feito apenas neste momento.
+                foreach (var produto in produtos)
+                {
+                    Console.WriteLine(produto.Nome);
+                }
+
+                //OBS: Porem temos que cuidar pois a cada forEach ele executa novamente.
+                //Para evitar isto coloque um toList no produtos, pois ai ele ira ao banco no momento do list e materializa a lista na memoria.
+                //Ex: contexto.Produtos.ToList();
+                foreach (var produto in produtos)
+                {
+                    Console.WriteLine(produto.Nome);
+                }
+            }
         }
 
         private static void GravarMuitosUsandoEntity()
